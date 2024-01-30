@@ -6,6 +6,7 @@
 const nextConfig = {
     reactStrictMode: false,
     env: {
+        BASE_URL: process.env.BASE_URL,
         ENDPOINT: process.env.ENDPOINT,
         PROJECT_ID: process.env.PROJECT_ID,
         DB_ID: process.env.DB_ID,

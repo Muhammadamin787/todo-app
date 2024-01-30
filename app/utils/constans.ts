@@ -21,7 +21,7 @@ export const DB = Object.freeze({
 
 
 // Api Routes
-export const BASE_URL = "http://localhost:3000" as const;
+export const BASE_URL = process.env.BASE_URL;
 export const pageURLs = Object.freeze({
     main: "/",
     signUp: "/auth/sign-up",
