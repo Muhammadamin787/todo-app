@@ -1,11 +1,8 @@
-/** @format */
+"use client";
 
 import Link from "next/link";
 import React from "react";
 import { IBoard } from "@/utils/types/boardTypes";
-import { Button } from "@/components/shadcn/ui";
-import { Trash } from "lucide-react";
-import useBoards from "@/hooks/useBoards";
 
 interface IBoardProps {
     board: IBoard;

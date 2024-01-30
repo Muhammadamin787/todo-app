@@ -8,8 +8,9 @@ import { useAuthLoading } from "@/context/AuthLoadingProvider";
 import { useLayoutEffect } from "react";
 import { useRouter } from "next/navigation";
 import { pageURLs } from "@/utils/constans";
+import { BoardList } from "@/components/Board";
 
-const BoardList = dynamic(() => import("./components/Board/BoardList"));
+// const BoardList = dynamic(() => import("./components/Board/BoardList"));
 
 export default function Home() {
 

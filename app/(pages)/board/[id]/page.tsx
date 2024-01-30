@@ -1,5 +1,5 @@
-import { Header } from "@/components/Header";
 import { Fragment } from "react";
+import { Header } from "@/components/Header";
 import { Container } from "@/layouts";
 import { ColumnList } from "@/(pages)/board/[id]/components/Column";
 
