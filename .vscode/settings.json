@@ -1,0 +1,7 @@
+{
+     "editor.codeLensFontFamily": "Consolas, 'Courier New', monospace",
+     "editor.inlayHints.fontFamily": "Consolas, 'Courier New', monospace",
+     "scm.inputFontFamily": "Consolas, 'Courier New', monospace",
+     "terminal.integrated.fontFamily": "Consolas, 'Courier New', monospace",
+     "notebook.output.fontFamily": "Consolas, 'Courier New', monospace"
+}
