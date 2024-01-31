@@ -43,7 +43,7 @@ export const BaseQueryWithAuth: IBaseQueryFn = async (args, api, extraOptions) =
                         await createJWT();
                         result = await baseQuery(args, api, extraOptions);
 
-                        if (result.error.status === 401) {
+                        if (result.error?.status === 401) {
                             window.location.replace(pageURLs.signIn);
                         }
 
