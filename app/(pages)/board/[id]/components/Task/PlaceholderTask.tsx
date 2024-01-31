@@ -18,7 +18,7 @@ function PlaceholderTask() {
                             Drop here
                         </div>
                     </TooltipTrigger>
-                    <TooltipContent side="bottom">
+                    <TooltipContent side="top">
                         <p>Drop a task to add</p>
                     </TooltipContent>
                 </Tooltip>

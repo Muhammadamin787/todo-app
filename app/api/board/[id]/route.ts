@@ -2,7 +2,7 @@ import appwriteSDK from "@/services/AppConfigServer";
 import { DB } from "@/utils/constans";
 import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
-import { setToken } from "@/api/DBFunctions";
+import { makeErrorResponse, setToken } from "@/api/DBFunctions";
 
 // export async function GET() {
 //     try {
@@ -34,11 +34,11 @@ export async function DELETE(_: NextRequest, { params }: { params: { id: string 
         const deleted = await appwriteSDK.databases.deleteDocument(
             DB.id,
             DB.collections.BOARDS_ID,
-            params.id + "s"
+            params.id
         );
 
         return NextResponse.json(deleted);
     } catch (error) {
-        return NextResponse.json({ error });
+        await makeErrorResponse();
     }
 }

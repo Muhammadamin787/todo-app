@@ -14,7 +14,10 @@ import { useAuth } from "@/context/AuthProvider";
 import { isNull } from "lodash";
 
 const BoardSchema = z.object({
-    title: z.string().min(1, { message: "Title is required" })
+    title: z
+        .string()
+        .max(30, { message: "Max length is 30" })
+        .min(1, { message: "Title is required" })
 });
 
 type TypeFormBoard = z.infer<typeof BoardSchema>;
@@ -51,7 +54,8 @@ function FormBoard({ className, setModal }: FormBoardProps) {
             })
             .catch(() => {
                 toast({
-                    title: `ERROR: Board is not created`
+                    title: `ERROR: Board is not created`,
+                    variant: "destructive"
                 });
             });
     };

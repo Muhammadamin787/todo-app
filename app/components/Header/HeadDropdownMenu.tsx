@@ -52,7 +52,10 @@ export function HeadDropdownMenu({}: Props) {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <div className="flex cursor-pointer items-center gap-2 px-2">
-                    <h1 className="">{currentUser?.name}</h1>
+                    <div className="flex flex-col justify-center">
+                        <h1 className="text-[1em] text-gray-800 py-0">{currentUser?.name}</h1>
+                        <h4 className="text-[.78em] text-gray-400">{currentUser?.email}</h4>
+                    </div>
                     <Avatar className="size-8 -mt-1">
                         {/*<AvatarImage*/}
                         {/*    sizes="4"*/}
@@ -66,13 +69,14 @@ export function HeadDropdownMenu({}: Props) {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56 ">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                {/*<DropdownMenuSeparator />*/}
+                <DropdownMenuSeparator />
                 {/*<DropdownMenuGroup>*/}
-                {/*<DropdownMenuItem>*/}
-                {/*    <User className="mr-2 h-4 w-4" />*/}
-                {/*    <span>Profile</span>*/}
-                {/*    <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>*/}
-                {/*</DropdownMenuItem>*/}
+                {/*    <DropdownMenuItem>*/}
+                {/*        <User className="mr-2 h-4 w-4" />*/}
+                {/*        <span>Profile</span>*/}
+                {/*        <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>*/}
+                {/*    </DropdownMenuItem>*/}
+                {/*</DropdownMenuGroup>*/}
                 {/* <DropdownMenuItem>
                         <CreditCard className="mr-2 h-4 w-4" />
                         <span>Billing</span>

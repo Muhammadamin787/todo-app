@@ -1,10 +1,11 @@
 import { BaseQueryFn, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { BASE_URL } from "@/utils/constans";
+import { BASE_URL, pageURLs } from "@/utils/constans";
 import { ReduxState } from "./store";
 import appAuthService from "@/services/AppwriteAuthServices";
 import { IPrimaryError, IUser } from "@/utils/types";
 import { createJWT } from "@/utils/helperFunctions";
 import { toast } from "@/components/shadcn/ui";
+import Router from "next/router";
 
 const baseQuery = fetchBaseQuery({
     baseUrl: BASE_URL,
@@ -41,6 +42,11 @@ export const BaseQueryWithAuth: IBaseQueryFn = async (args, api, extraOptions) =
                         // Refresh token
                         await createJWT();
                         result = await baseQuery(args, api, extraOptions);
+
+                        if (result.error.status === 401) {
+                            window.location.replace(pageURLs.signIn);
+                        }
+
                         break;
                     }
                     case 404: {
@@ -61,6 +67,5 @@ export const BaseQueryWithAuth: IBaseQueryFn = async (args, api, extraOptions) =
             }
         }
     }
-    console.log(result);
     return result;
 };

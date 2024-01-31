@@ -1,7 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import type { IColumn, ITask, ITaskResponse, ITaskListResponse, ITaskMoveDetails } from "@/utils/types";
 import { toast } from "@/components/shadcn/ui";
-// import { columnsApi } from "@/services/apiService/columnsApi";
+import { columnsApi } from "@/services/apiService";
 import { ReduxState } from "lib/redux";
 import { BaseQueryWithAuth } from "lib/redux/jwtMiddleware";
 
@@ -23,12 +23,12 @@ export const tasksApi = createApi({
 
                 // Pessimistic update
                 queryFulfilled.then(({ data: task }) => {
-                    // dispatch(columnsApi.util?.updateQueryData("fetchColumnsByBoardId", boardId,
-                    //     (draft) => {
-                    //         const column = draft.find(col => col.$id === task.columnId);
-                    //         if (column) column.tasks.push(task);
-                    //     }
-                    // ));
+                    dispatch(columnsApi.util?.updateQueryData("fetchColumnsByBoardId", boardId,
+                        (draft) => {
+                            const column = draft.find(col => col.$id === task.columnId);
+                            if (column) column.tasks.push(task);
+                        }
+                    ));
                 });
             }
         }),
@@ -38,7 +38,24 @@ export const tasksApi = createApi({
                 url: `/api/task/${id}`,
                 method: "PUT",
                 body
-            })
+            }),
+            onQueryStarted(_, { queryFulfilled, dispatch, getState }) {
+                const store = getState() as ReduxState;
+                const boardId = store.boardSlice.currentBoardId!;
+
+                // Pessimistic update
+                queryFulfilled.then(({ data: task }) => {
+                    dispatch(columnsApi.util?.updateQueryData("fetchColumnsByBoardId", boardId,
+                        (draft) => {
+                            const column = draft.find(col => col.$id === task.columnId);
+                            if (column) {
+                                const index = column.tasks.findIndex(t => t.$id === task.$id);
+                                column.tasks.splice(index, 1, task);
+                            }
+                        }
+                    ));
+                });
+            }
         }),
 
         fetchTasksByColumnId: build.query<ITaskListResponse, IColumn["$id"]>({
@@ -75,17 +92,17 @@ export const tasksApi = createApi({
 
                 // Pessimistic update
                 if (isSameColumn) {
-                    // const moveOperation = dispatch(columnsApi.util?.updateQueryData("fetchColumnsByBoardId", boardId,
-                    //     (draft) => {
-                    //         const column = draft.find(col => col.$id === currentColumnId);
-                    //         if (column) {
-                    //             const theTask = column.tasks.find(task => task.$id === taskId)!;
-                    //             column.tasks.splice(theTask.index - 1, 1);
-                    //             column.tasks.splice(targetTaskIndex, 0, theTask);
-                    //             column.tasks = column.tasks.map((task, index) => ({ ...task, index: index + 1 }));
-                    //         }
-                    //     }
-                    // ));
+                    const moveOperation = dispatch(columnsApi.util?.updateQueryData("fetchColumnsByBoardId", boardId,
+                        (draft) => {
+                            const column = draft.find(col => col.$id === currentColumnId);
+                            if (column) {
+                                const theTask = column.tasks.find(task => task.$id === taskId)!;
+                                column.tasks.splice(theTask.index - 1, 1);
+                                column.tasks.splice(targetTaskIndex, 0, theTask);
+                                column.tasks = column.tasks.map((task, index) => ({ ...task, index: index + 1 }));
+                            }
+                        }
+                    ));
 
                     queryFulfilled.catch(() => {
                         // moveOperation.undo();
@@ -103,32 +120,32 @@ export const tasksApi = createApi({
                             return;
                         }
 
-                        // const addOperation = dispatch(columnsApi.util?.updateQueryData("fetchColumnsByBoardId", boardId,
-                        //     (draft) => {
-                        //         const column = draft.find(col => col.$id === targetColumnId);
-                        //
-                        //         if (column) {
-                        //             column.tasks.splice(targetTaskIndex, 0, currentTask!);
-                        //             column.tasks = column.tasks.map((task, index) => ({ ...task, index: index + 1 }));
-                        //         }
-                        //     }
-                        // ));
+                        const addOperation = dispatch(columnsApi.util?.updateQueryData("fetchColumnsByBoardId", boardId,
+                            (draft) => {
+                                const column = draft.find(col => col.$id === targetColumnId);
 
-                        // const removeOperation = dispatch(columnsApi.util?.updateQueryData("fetchColumnsByBoardId", boardId,
-                        //     (draft) => {
-                        //         const column = draft.find(col => col.$id === currentColumnId);
-                        //         if (column) {
-                        //             const removedTask = column.tasks.find(task => task.$id === taskId)!;
-                        //             column.tasks.splice(removedTask.index - 1, 1);
-                        //             column.tasks = column.tasks.map((task, index) => ({ ...task, index: index + 1 }));
-                        //         }
-                        //     }
-                        // ));
+                                if (column) {
+                                    column.tasks.splice(targetTaskIndex, 0, currentTask!);
+                                    column.tasks = column.tasks.map((task, index) => ({ ...task, index: index + 1 }));
+                                }
+                            }
+                        ));
+
+                        const removeOperation = dispatch(columnsApi.util?.updateQueryData("fetchColumnsByBoardId", boardId,
+                            (draft) => {
+                                const column = draft.find(col => col.$id === currentColumnId);
+                                if (column) {
+                                    const removedTask = column.tasks.find(task => task.$id === taskId)!;
+                                    column.tasks.splice(removedTask.index - 1, 1);
+                                    column.tasks = column.tasks.map((task, index) => ({ ...task, index: index + 1 }));
+                                }
+                            }
+                        ));
 
 
                         queryFulfilled.catch(() => {
-                            // addOperation.undo();
-                            // removeOperation.undo();
+                            addOperation.undo();
+                            removeOperation.undo();
                             toast({ title: "Error on moving", variant: "destructive" });
                         });
                     } catch (e) {
@@ -150,12 +167,12 @@ export const tasksApi = createApi({
 
                 // Pessimistic update
                 queryFulfilled.then(() => {
-                    // dispatch(columnsApi.util?.updateQueryData("fetchColumnsByBoardId", boardId,
-                    //     (draft) => {
-                    //         const column = draft.find(col => col.$id === args.columnId);
-                    //         if (column) column.tasks = column.tasks.filter(task => task.$id !== args.taskId);
-                    //     }
-                    // ));
+                    dispatch(columnsApi.util?.updateQueryData("fetchColumnsByBoardId", boardId,
+                        (draft) => {
+                            const column = draft.find(col => col.$id === args.columnId);
+                            if (column) column.tasks = column.tasks.filter(task => task.$id !== args.taskId);
+                        }
+                    ));
                 });
             }
         })

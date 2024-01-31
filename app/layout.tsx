@@ -26,7 +26,7 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-        <body className={GeistSans.className + " flex flex-col h-screen"}>
+        <body className={GeistSans.className + " flex flex-col h-screen text-gray-600 "}>
         <ReduxProvider>
             <AuthLoadingProvider>
                 <AuthProvider>

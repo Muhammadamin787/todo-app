@@ -31,7 +31,6 @@ function FormTask({ data, columnId = "", className }: FormTaskProps) {
     // Helper Hooks
     const { account } = useAuth();
     const dispatch = useDispatch();
-
     const {
         createTask,
         isCreating,
@@ -87,7 +86,7 @@ function FormTask({ data, columnId = "", className }: FormTaskProps) {
                 className={cn("grid items-start gap-4", className)}
                 onSubmit={methods.handleSubmit(onSave)}
             >
-                <h1 className="text-lg">Add Task</h1>
+                <h1 className="text-lg">{data?.$id ? "Update Task" : "Add Task"}</h1>
                 <FormField name="title" placeholder="Name" />
                 <FormTextarea
                     name="description"

@@ -51,12 +51,13 @@ function FormColumn({ className, boardId, setModal }: FormColumnProps) {
             .then(() => {
                 if (setModal) setModal(false);
                 toast({
-                    title: `${fields.title} column is created`
+                    title: `${fields.title} column is created`,
                 });
             })
             .catch(() => {
                 toast({
-                    title: `ERROR: Column is not created`
+                    title: `ERROR: Column is not created`,
+                    variant: "destructive"
                 });
             });
     };

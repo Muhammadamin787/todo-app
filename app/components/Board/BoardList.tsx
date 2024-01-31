@@ -29,14 +29,14 @@ function BoardList() {
 
     return (
         <section className="mx-auto py-5">
-            <h1 className="text-2xl font-semibold ">Board List</h1>
+            <h1 className="text-2xl font-semibold ">Boards</h1>
             <div className="flex mt-6 gap-3 flex-wrap">
                 {boards.map((board, index) => (
                     <Board board={board} key={index} />
                 ))}
                 <BoardSkeleton length={3} show={isFetching} />
                 <button
-                    className="w-[220px] h-24 p-4 hover:text-[1.1em] ease-out duration-100 text-gray-500 rounded border border-slate-50 hover:text-gray-800 hover:border-slate-400"
+                    className="w-[230px] h-24 p-4 hover:text-[1.1em] ease-out duration-100 text-gray-500 rounded border border-slate-50 hover:text-gray-800 hover:border-slate-400"
                     onClick={onAddBoard}
                 >
                     + Add a Board
