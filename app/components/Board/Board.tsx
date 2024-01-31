@@ -18,6 +18,7 @@ function Board({ board }: IBoardProps) {
     // };
     const { push } = useRouter();
     const onClick = () => {
+
         push(`board/${board.$id}`);
     };
 
