@@ -8,10 +8,7 @@ import * as z from "zod";
 import { Button, toast } from "../shadcn/ui";
 import FormField from "./components/FormField";
 import { LoadingBalls } from "@/components/Loadings/LoadingBalls";
-import appAuthService from "@/services/AppwriteAuthServices";
-import { useEffect } from "react";
 import { useAuth } from "@/context/AuthProvider";
-import { isNull } from "lodash";
 
 const BoardSchema = z.object({
     title: z
