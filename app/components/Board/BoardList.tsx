@@ -29,7 +29,7 @@ function BoardList() {
 
     return (
         <section className="mx-auto py-5">
-            <h1 className="text-2xl font-semibold ">Boards</h1>
+            <h1 className="text-2xl font-semibold ">Board List</h1>
             <div className="flex mt-6 gap-3 flex-wrap">
                 {boards.map((board, index) => (
                     <Board board={board} key={index} />
