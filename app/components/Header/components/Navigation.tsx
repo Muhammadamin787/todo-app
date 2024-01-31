@@ -65,12 +65,14 @@ export function HeaderNavigation() {
 
     // Functions
     const onDelete = () => {
-        deleteBoard(id)
-            .unwrap()
-            .then(res => {
-                console.log(res);
-                back();
-            });
+        if (typeof id === "string") {
+            deleteBoard(id)
+                .unwrap()
+                .then(res => {
+                    console.log(res);
+                    back();
+                });
+        }
     };
 
     return (
