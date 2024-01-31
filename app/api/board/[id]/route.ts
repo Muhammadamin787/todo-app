@@ -39,6 +39,6 @@ export async function DELETE(_: NextRequest, { params }: { params: { id: string 
 
         return NextResponse.json(deleted);
     } catch (error) {
-        await makeErrorResponse();
+        return makeErrorResponse(error);
     }
 }
